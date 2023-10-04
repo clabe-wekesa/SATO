@@ -4,49 +4,32 @@ This Python application, built with PyQt6 and integrated with the BioPython libr
 The package provides a comprehensive and user-friendly solution for biologists and researchers working with biological sequence data. It aims to streamline and simplify various sequence analysis tasks, including generating consensus sequences, conducting sequence alignments, and performing phylogenetic analysis. By offering a graphical user interface (GUI) and integrating with external tools and libraries like BioPython, Clustal Omega, MAFFT, MrBayes, FastTree, Jalview, and FigTree, the package empowers users to efficiently analyze and visualize biological sequence data, making it a valuable resource for molecular biology and bioinformatics research. 
 ### Features
 SATO is a powerful Sequence Analysis Toolkit that offers a range of features for working with biological sequences. Whether you need to generate consensus sequences, perform sequence alignment, or conduct phylogenetic analysis, SATO has you covered. Below are some of the key features of this application:
-1. Consensus Sequence Generation
+**1. Consensus Sequence Generation**
    - Users can provide two sequences in FASTA format.
    - The app generates a consensus sequence by finding the best overlapping window that minimizes mismatches while maximizing sequence length.
-2. Sequence Alignment
+**2. Sequence Alignment**
    - Users can perform sequence alignment using either Clustal Omega or MAFFT.
    - Input sequences are validated for FASTA format.
    - Aligned sequences are displayed in a user-friendly format.
-3. Phylogenetic Analysis
+**3. Phylogenetic Analysis**
    - Users can conduct phylogenetic analysis using either MrBayes (Bayesian Phylogeny) or FastTree (Maximum Likelihood).
    - Supports both DNA and Protein sequences.
    - The app handles input alignments in FASTA or Nexus format.
    - Generates a phylogenetic tree and visualizes it using FigTree.
-4. User-Friendly Interface
+**4. User-Friendly Interface**
    - The app offers a tabbed interface for easy navigation between different analysis functions. 
 ### Installation Instructions
-1. Python Environment - Make sure you have Python 3.x installed on your system. You can download Python from the official website: Python Downloads
+**1. Python Environment** - Make sure you have Python 3.x installed on your system. You can download Python from the official website: Python Downloads
 
-2. Python Packages - Install the required Python packages using pip:
+**2. Python Packages** - Install the required Python packages using pip:
 ```bash
 pip install PyQt6
 pip install biopython
-pip install sato
 ```
-3. Alignment Tools (Optional)
-Depending on your needs, you can choose to install either Clustal Omega or MAFFT for sequence alignment. If you don't plan to use these features, you can skip this step.
-
-Clustal Omega (Optional)
-Installation instructions for Clustal Omega can be found on the Clustal Omega website.
-Ensure that Clustal Omega is accessible from the command line.
-
-MAFFT (Optional):
-Installation instructions for MAFFT can be found on the MAFFT website.
-Ensure that MAFFT is accessible from the command line.
-
-4. MrBayes (Optional)
-If you intend to perform Bayesian phylogenetic analysis, you can install MrBayes.
-Installation instructions for MrBayes can be found on the MrBayes website.
-Ensure that MrBayes is accessible from the command line.
-
-5. FigTree (Optional)
-FigTree is a standalone application for viewing trees.
-If you plan to visualize and analyse phylogenetic trees, you can install the FigTree.
-You can download FigTree from the FigTree website.
+**3. Others include:**
+- [Clustal Omega](http://www.clustal.org/omega/) and/or [MAFFT](https://mafft.cbrc.jp/alignment/software/) for sequence alignment
+- [MrBayes](https://nbisweden.github.io/MrBayes/) and/or [FastTree](http://www.microbesonline.org/fasttree/) for phylogenetic analysis
+- [Jalview](https://www.jalview.org/) and [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) for visualization and analysis of multiple sequence alignment and phylogenetic trees respectively
 
 ### Usage
 After installation, open the terminal.
@@ -61,8 +44,8 @@ SATO is designed to be cross-platform and works on Windows, macOS, and Linux usi
 5. Rambaut, A. (2009). FigTree. Tree figure drawing tool. http://tree. bio. ed. ac. uk/software/figtree/.
 6. Waterhouse, A., Procter, J., Martin, D.A. and Barton, G.J., 2005. Jalview: visualization and analysis of molecular sequences, alignments, and structures. BMC Bioinformatics, 6(3), pp.1-1.
 ### Contribution
-Should you notice a bug, please let us know through issues in the, [GitHub Issue Tracker](https://github.com/clabe-wekesa/MLDockKit/issues)
+Should you notice a bug, please let us know through issues in the, [GitHub Issue Tracker](https://github.com/clabe-wekesa/SATO/issues)
 
-### Authors
+### Author
 [Dr. Clabe Wekesa](https://www.ice.mpg.de/246268/group-members)
  
