@@ -4,19 +4,19 @@ This Python application, built with PyQt6 and integrated with the BioPython libr
 The package provides a comprehensive and user-friendly solution for biologists and researchers working with biological sequence data. It aims to streamline and simplify various sequence analysis tasks, including generating consensus sequences, conducting sequence alignments, and performing phylogenetic analysis. By offering a graphical user interface (GUI) and integrating with external tools and libraries like BioPython, Clustal Omega, MAFFT, MrBayes, FastTree, Jalview, and FigTree, the package empowers users to efficiently analyze and visualize biological sequence data, making it a valuable resource for molecular biology and bioinformatics research. 
 ### Features
 SATO is a powerful Sequence Analysis Toolkit that offers a range of features for working with biological sequences. Whether you need to generate consensus sequences, perform sequence alignment, or conduct phylogenetic analysis, SATO has you covered. Below are some of the key features of this application:
-**1. Consensus Sequence Generation**
+### Consensus Sequence Generation
    - Users can provide two sequences in FASTA format.
    - The app generates a consensus sequence by finding the best overlapping window that minimizes mismatches while maximizing sequence length.
-**2. Sequence Alignment**
+### Sequence Alignment
    - Users can perform sequence alignment using either Clustal Omega or MAFFT.
    - Input sequences are validated for FASTA format.
    - Aligned sequences are displayed in a user-friendly format.
-**3. Phylogenetic Analysis**
+### Phylogenetic Analysis
    - Users can conduct phylogenetic analysis using either MrBayes (Bayesian Phylogeny) or FastTree (Maximum Likelihood).
    - Supports both DNA and Protein sequences.
    - The app handles input alignments in FASTA or Nexus format.
    - Generates a phylogenetic tree and visualizes it using FigTree.
-**4. User-Friendly Interface**
+### User-Friendly Interface
    - The app offers a tabbed interface for easy navigation between different analysis functions. 
 ### Installation Instructions
 **1. Python Environment** - Make sure you have Python 3.x installed on your system. You can download Python from the official website: Python Downloads
