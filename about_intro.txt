@@ -1,0 +1,42 @@
+**Welcome to SATO: Sequence Analysis Toolkit**
+
+**Unlock the Power of Sequence Analysis with SATO**
+
+Are you a researcher, biologist, or bioinformatician seeking to unravel the mysteries hidden within biological sequences? Look no further. SATO, the Sequence Analysis Toolkit, is your all-in-one solution for a seamless and efficient sequence analysis experience.
+
+**What is SATO?**
+
+SATO is a versatile toolkit designed to simplify and enhance the process of analyzing biological sequences. Whether you're exploring genetic codes, aligning sequences, or reconstructing phylogenetic trees, SATO is here to assist you at every step.
+
+**Your Sequence Analysis Companion**
+
+At SATO, we understand the complexities of bioinformatics, and we're committed to making your research journey smoother and more rewarding. Here's what SATO brings to the table:
+
+*- Consensus Sequences: Generate consensus sequences from multiple inputs effortlessly.*
+
+*- Sequence Alignment: Perform precise sequence alignments with your choice of Clustal Omega or MAFFT.*
+
+*- Phylogenetic Analysis: Dive into the world of evolutionary relationships with tools like MrBayes and FastTree.*
+
+**Why SATO?**
+
+Our mission is to empower scientists and researchers by streamlining the sequence analysis workflow. With SATO, you can focus on your research questions and hypotheses, knowing that the intricate bioinformatics processes are handled efficiently.
+
+**Your Way, Your Toolkit**
+
+SATO is customizable to suit your research needs. Select your preferred alignment tool and molecule type, ensuring that SATO adapts to your specific requirements.
+
+**Community and Support**
+
+Join our growing community of users and researchers. Explore our documentation, participate in forums, and reach out for assistance whenever needed. We're here to support you every step of the way.
+
+**What's Next?**
+
+The journey of SATO doesn't end here. We're committed to continuous improvement and development. Stay tuned for updates and new features that will further elevate your sequence analysis experience.
+
+**Get Started with SATO**
+
+Ready to embark on your sequence analysis journey with SATO? Check help page to explore the toolkit's capabilities. Unleash the power of sequence analysis, and let SATO be your trusted companion in your research endeavors.
+
+*Welcome to SATO: Where Sequences Unfold*
+
