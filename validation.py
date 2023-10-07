@@ -1,4 +1,11 @@
 import os
+
+def is_valid_fasta(file_content):
+    # Define a regular expression to validate FASTA format
+    fasta_pattern = r'^>.*\n[ACGTNURYSWKMBDHVXacgtnuryswkmdbhvx\n]*$'
+    return bool(re.match(fasta_pattern, file_content, re.MULTILINE | re.IGNORECASE))
+
+
 def is_protein_alignment(input_file):
     try:
         with open(input_file, 'r') as file:
@@ -7,7 +14,7 @@ def is_protein_alignment(input_file):
             valid_protein_chars = "DEFHIKLMNPQRSVWYdefhiklmnpqrsvwy"
             return any(aa in valid_protein_chars for aa in sequence)
     except Exception:
-        return False
+        return False    
 
 
 def is_protein_alignment_nexus(input_file):

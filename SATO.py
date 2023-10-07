@@ -1,9 +1,10 @@
 import sys
 import os
+import re
 from PyQt6.QtWidgets import (
     QApplication, QMainWindow, QWidget, QVBoxLayout,
     QLabel, QTextEdit, QFileDialog, QRadioButton, QTabWidget,
-    QPushButton, QComboBox, QGridLayout
+    QPushButton, QComboBox, QGridLayout, QMessageBox,QDialog
 )
 from PyQt6.QtGui import QFont, QIcon, QPixmap
 from PyQt6.QtCore import Qt, QFile, QTextStream, QIODevice
@@ -15,19 +16,39 @@ from Bio import AlignIO
 from io import StringIO
 import subprocess
 import shutil
-from .validation import (
-    is_protein_alignment, text_formatting,
-    is_fasta_aligned, is_nexus_aligned, is_valid_fasta
+from validation import (
+    is_protein_alignment, text_formatting,is_valid_fasta,
+    is_fasta_aligned, is_valid_fasta
 )
 
 # Define a custom exception for your application
 class CustomError(Exception):
     def __init__(self, message):
         super().__init__(message)
+
+class ErrorDialog(QDialog):
+    def __init__(self, error_message):
+        super().__init__()
+
+        self.setWindowTitle("Error")
+        self.setModal(True)
+
+        layout = QVBoxLayout()
+        message_label = QLabel(error_message)
+        ok_button = QPushButton("OK")
+
+        layout.addWidget(message_label)
+        layout.addWidget(ok_button)
+
+        ok_button.clicked.connect(self.accept)
+
+        self.setLayout(layout)
+
 class SATOApp(QMainWindow):
     def __init__(self):
         super().__init__()
         self.molecule_type = "DNA"  # Initialize molecule_type attribute
+        self.upload_path = None
         self.initUI()
 
     def initUI(self):
@@ -38,7 +59,7 @@ class SATOApp(QMainWindow):
         icon_path = os.path.join(script_directory, 'icons/sato.png')
         # Set the window icon
         self.setWindowIcon(QIcon(icon_path))
-        self.setGeometry(100, 100, 750, 500)
+        self.setGeometry(100, 100, 1150, 900)
         self.setContentsMargins(30, 30, 30, 30)
 
         # Get the absolute path of the directory containing this script
@@ -61,6 +82,7 @@ class SATOApp(QMainWindow):
         about_tab = QWidget()
         help_tab = QWidget()
         consensus_tab = QWidget()
+        sequenceCleaner_tab = QWidget()
         alignment_tab = QWidget()
         phylogenetic_tab = QWidget()
 
@@ -68,6 +90,7 @@ class SATOApp(QMainWindow):
         central_widget.addTab(about_tab, 'About')
         central_widget.addTab(help_tab, 'Help')  # Set 'Help' as the first tab
         central_widget.addTab(consensus_tab, 'Consensus Sequence')
+        central_widget.addTab(sequenceCleaner_tab, 'Sequence Cleaner')
         central_widget.addTab(alignment_tab, 'Sequence Alignment')
         central_widget.addTab(phylogenetic_tab, 'Phylogenetic Analysis')
 
@@ -77,6 +100,7 @@ class SATOApp(QMainWindow):
         self.initAboutTab(about_tab)
         self.initHelpTab(help_tab)
         self.initConsensusTab(consensus_tab)
+        self.initsequenceCleaner_tab(sequenceCleaner_tab)
         self.initAlignmentTab(alignment_tab)
         self.initPhylogeneticTab(phylogenetic_tab)
 
@@ -90,7 +114,8 @@ class SATOApp(QMainWindow):
                 elif os.path.isdir(file_path):
                     shutil.rmtree(file_path)
             except Exception as e:
-                print(f"Error deleting file or directory {file_path}: {str(e)}")
+                print(f"Error deleting file or directory {file_path}: {str(e)}")    
+
 
     def initSATOTab(self, tab):
         # Create a QGridLayout to hold the image and text
@@ -218,6 +243,60 @@ class SATOApp(QMainWindow):
         except CustomError as e:
             self.result_text.setPlainText(f" {str(e)}")
 
+    def initsequenceCleaner_tab(self, tab):
+        layout = QVBoxLayout()
+
+        sequence_layout = QVBoxLayout()
+
+        # Create labels and input fields for alignment options
+        self.sequence_label = QLabel('Alignment Options:')
+        self.sequence_label.setFont(QFont())
+        self.sequence_input_label = QLabel('Select FASTA File for Cleaning')
+        self.sequence_input_label.setFont(QFont())
+
+        # Determine the full path to the icons directory within the package
+        package_directory = os.path.dirname(__file__)
+        icons_directory = os.path.join(package_directory, 'icons')
+
+        # Use the full path to load the icon
+        icon_path = os.path.join(icons_directory, 'fasta.png')
+        self.sequence_input_file_button = QPushButton(QIcon(icon_path), 'Browse')
+
+        self.sequence_input_file_button.clicked.connect(self.get_sequence_file)
+
+        # Add labels for displaying the selected file paths
+        self.sequence_input_path_label = QLabel()
+
+        sequence_layout.addWidget(self.sequence_label)
+        sequence_layout.addWidget(self.sequence_input_label)
+        sequence_layout.addWidget(self.sequence_input_file_button)
+        sequence_layout.addWidget(self.sequence_input_path_label)
+
+        layout.addLayout(sequence_layout)
+
+        # Submit button
+        self.sequence_submit_button = QPushButton('Submit')
+        self.sequence_submit_button.clicked.connect(self.process_fasta)
+        layout.addWidget(self.sequence_submit_button)
+
+        # Text box for displaying the alignment result
+        self.sequence_result_label = QLabel('Clean Sequences')
+        self.sequence_result_text = QTextEdit()
+        self.sequence_result_text.setReadOnly(True)
+        layout.addWidget(self.sequence_result_label)
+        layout.addWidget(self.sequence_result_text)
+
+        tab.setLayout(layout)
+
+    def get_sequence_file(self):
+        file_name, _ = QFileDialog.getOpenFileName(self, "Select FASTA File for Cleaning", "",
+                                                   "FASTA Files (*.fasta *.fa);;All Files (*)")
+        if file_name:
+            self.upload_path = file_name
+            self.sequence_input_path_label.setText(os.path.basename(file_name))  # Display only the filename    
+
+
+
     def initAlignmentTab(self, tab):
         layout = QVBoxLayout()
 
@@ -227,7 +306,7 @@ class SATOApp(QMainWindow):
         # Create labels and input fields for alignment options
         self.alignment_label = QLabel('Alignment Options:')
         self.alignment_label.setFont(QFont())
-        self.alignment_input_label = QLabel('Select FASTA File for Alignment:')
+        self.alignment_input_label = QLabel('Select FASTA File for Alignment')
         self.alignment_input_label.setFont(QFont())
 
         # Determine the full path to the icons directory within the package
@@ -248,6 +327,13 @@ class SATOApp(QMainWindow):
         self.mafft_radio = QRadioButton('MAFFT')
         self.clustal_radio.setChecked(True)  # Default to Clustal Omega
 
+        # Add a QComboBox for selecting the alignment visualization tool
+        self.alignment_visualization_label = QLabel('Alignment Visualization Tool')
+        self.alignment_visualization_combo = QComboBox()
+        self.alignment_visualization_combo.addItem('SeaView')
+        self.alignment_visualization_combo.addItem('Jalview')
+        self.alignment_visualization_combo.setCurrentIndex(0)  # Default to SeaView
+
         alignment_layout.addWidget(self.alignment_label)
         alignment_layout.addWidget(self.alignment_input_label)
         alignment_layout.addWidget(self.alignment_input_file_button)
@@ -255,6 +341,8 @@ class SATOApp(QMainWindow):
         alignment_layout.addWidget(self.alignment_tool_label)
         alignment_layout.addWidget(self.clustal_radio)
         alignment_layout.addWidget(self.mafft_radio)
+        alignment_layout.addWidget(self.alignment_visualization_label)
+        alignment_layout.addWidget(self.alignment_visualization_combo)  # Add the ComboBox
 
         layout.addLayout(alignment_layout)
 
@@ -322,8 +410,8 @@ class SATOApp(QMainWindow):
 
         # Radio buttons for selecting the tool
         self.tool_label = QLabel('Select Phylogenetic Method')
-        self.mrBayes_radio = QRadioButton('Bayesian Phylogeny')
-        self.fastTree_radio = QRadioButton('Maximum Likelihood')
+        self.mrBayes_radio = QRadioButton('MrBayes-Bayesian Phylogeny')
+        self.fastTree_radio = QRadioButton('fasttree-Maximum Likelihood')
         self.mrBayes_radio.setChecked(True)  # Default to MrBayes
         phylogen_layout.addWidget(self.tool_label)
         phylogen_layout.addWidget(self.mrBayes_radio)
@@ -354,12 +442,6 @@ class SATOApp(QMainWindow):
 
         tab.setLayout(layout)
 
-    def setMoleculeTypeDNA(self):
-        self.protein_radio.setChecked(True)
-
-    def setMoleculeTypeProtein(self):
-        if self.dna_radio.isChecked():
-            self.dna_radio.setChecked(False)
 
     def get_phylogen_file(self):
         file_name, _ = QFileDialog.getOpenFileName(self, "Select Alignment File for Phylogenetic Analysis", "",
@@ -370,7 +452,7 @@ class SATOApp(QMainWindow):
 
     def perform_phylogeny(self):
         try:
-            selected_tool = "Bayesian Phylogeny" if self.mrBayes_radio.isChecked() else "Maximum Likelihood"
+            selected_tool = "MrBayes-Bayesian Phylogeny" if self.mrBayes_radio.isChecked() else "fasttree-Maximum Likelihood"
 
             input_file = self.phylogen_file_path  # Use the selected file path
 
@@ -395,15 +477,6 @@ class SATOApp(QMainWindow):
         try:
             if not fasta_file1 or not fasta_file2:
                 return "Please select both sequences for consensus sequence generation."
-
-            def is_valid_fasta(content):
-                """
-                Check if the given content is in FASTA format.
-                """
-                lines = content.strip().split('\n')
-                if len(lines) < 2 or not lines[0].startswith('>'):
-                    return False
-                return True
 
             # Read sequences from files or directly provided sequences
             if os.path.isfile(fasta_file1):
@@ -470,8 +543,77 @@ class SATOApp(QMainWindow):
         except Exception as e:
             raise CustomError(f"Files provided are not in FASTA format. Please provide FASTA files. {str(e)}")
 
+    def process_fasta(self):
+        input_file = self.upload_path
+        if not input_file:
+            # Display an error message using the custom dialog
+            error_message = "Please select a FASTA file to process."
+            error_dialog = ErrorDialog(error_message)
+            error_dialog.exec()
+            return
+
+        # Generate the output file name based on the input file name
+        base_name = os.path.splitext(os.path.basename(input_file))[0]
+        output_file = f"{base_name}_cleaned.fasta"
+
+        try:
+            with open(input_file, 'r') as f:
+                file_content = f.read()
+
+            # Check if the file content follows FASTA format
+            if not is_valid_fasta(file_content):
+                error_message = "Selected file is not a valid FASTA file."
+                error_dialog = ErrorDialog(error_message)
+                error_dialog.exec()
+                return
+
+            # Generate the output file name based on the input file name
+            base_name = os.path.splitext(os.path.basename(input_file))[0]
+            output_file = f"{base_name}_cleaned.fasta"
+
+            current_sequence = ""
+            sequences = []
+
+            for line in file_content.split('\n'):
+                line = line.strip()
+                if line.startswith(">"):
+                    if current_sequence:
+                        cleaned_sequence = self.remove_non_nucleotides(current_sequence)
+                        sequences.append((current_header, cleaned_sequence))  # Store both header and sequence
+                    current_sequence = ""
+                    current_header = line
+                else:
+                    current_sequence += line
+
+            if current_sequence:
+                cleaned_sequence = self.remove_non_nucleotides(current_sequence)
+                sequences.append((current_header, cleaned_sequence))  # Store both header and sequence
+
+            with open(output_file, 'w') as f:
+                for i, (header, sequence) in enumerate(sequences):
+                    f.write(header + "\n")  # Write the header to the output file
+                    f.write(sequence + "\n")
+
+            # Display the processed sequences with headers in the text box
+            self.sequence_result_text.clear()
+            formatted_sequences = [f"{header}\n{sequence}\n" for header, sequence in sequences]
+            self.sequence_result_text.setPlainText("".join(formatted_sequences))
+
+        except Exception as e:
+            # Display an error message to the user
+            error_message = f"An error occurred: {str(e)}"
+            error_dialog = ErrorDialog(error_message)
+            error_dialog.exec()
+
+
+
+    def remove_non_nucleotides(self, sequence):
+        # Use a regular expression to remove non-nucleotide characters (A, C, G, T)
+        return re.sub(r'[^ACGTacgt]', '', sequence)
+
     def perform_msa(self):
         try:
+
             selected_tool = "clustalo" if self.clustal_radio.isChecked() else "mafft"
 
             # Check if no file is provided
@@ -487,16 +629,19 @@ class SATOApp(QMainWindow):
                     "The selected file is not a valid FASTA file. Please provide a FASTA file.")
                 return False
 
+            # Get the selected alignment visualization tool from the ComboBox
+            selected_visualization_tool = self.alignment_visualization_combo.currentText()
+
             # Initialize stdout and stderr
             stdout = ""
             stderr = ""
 
             # Perform the sequence alignment using the selected tool
             if selected_tool == "mafft":
-                mafft_cline = MafftCommandline(input=input_filename)
+                mafft_cline = MafftCommandline(cmd="mafft", input=input_filename)  # Provide full path to mafft executable
                 stdout, stderr = mafft_cline()
             elif selected_tool == "clustalo":
-                clustalo_cline = ClustalOmegaCommandline(infile=input_filename, outfmt="fasta")
+                clustalo_cline = ClustalOmegaCommandline(cmd="clustalo", infile=input_filename, outfmt="fasta")
                 stdout, stderr = clustalo_cline()
 
             # Check if alignment was successful
@@ -517,13 +662,21 @@ class SATOApp(QMainWindow):
             with open(output_file, "w") as output_handle:
                 AlignIO.write(alignment, output_handle, "fasta")
 
-            # Launch Jalview with the alignment file
-            jalview_command = ["jalview", "-open", output_file]
-            subprocess.Popen(jalview_command)
+            # Choose the alignment visualization tool based on the user's selection
+            if selected_visualization_tool == 'jalview':
+                # Launch jalview with the alignment file
+                jalview_command = ["jalview", "-open", output_file]
+                subprocess.Popen(jalview_command)
+            else:  # Default to seaview
+                # Launch seaview with the alignment file
+                seaview_command = ["seaview", output_file]
+                subprocess.Popen(seaview_command)
+
             return True
 
         except Exception as e:
             self.alignment_result_text.setPlainText(f"Error: {str(e)}")
+
 
     def generate_output_filename(self, input_filename):
         try:
@@ -537,7 +690,7 @@ class SATOApp(QMainWindow):
             self.alignment_result_text.setPlainText(f"Error generating output filename: {str(e)}")
             return "alignment.fasta"  # Default to a hardcoded filename if an error occurs
 
-    def phylogeny(self, input_file, tool="Bayesian Phylogeny"):
+    def phylogeny(self, input_file, tool="MrBayes-Bayesian Phylogeny"):
         try:
             # Use the selected file path
             input_file = self.phylogen_file_path if not input_file else input_file
@@ -551,6 +704,12 @@ class SATOApp(QMainWindow):
             if is_protein_alignment(input_file) and self.molecule_type != "Protein":
                 self.output_text.setPlainText(
                     "Error: The selected molecular type must be 'Protein' for protein alignments.")
+                return
+
+            # Check the alignment format and selected molecular type
+            if not is_protein_alignment(input_file) and self.molecule_type == "Protein":
+                self.output_text.setPlainText(
+                    "Error: The selected molecular type must be 'DNA' for nucleotide alignments.")
                 return
 
             # Check if the provided file is aligned
@@ -567,7 +726,7 @@ class SATOApp(QMainWindow):
             # Use the self.molecule_type variable for molecule type selection
             molecule_type = self.molecule_type
 
-            if tool == "Maximum Likelihood":
+            if tool == "fasttree-Maximum Likelihood":
                 # Run FastTree directly on the input FASTA file to generate a tree file
                 base_name = os.path.splitext(os.path.basename(input_file))[0]
                 tree_path = os.path.join(output_folder, f"{base_name}.tree")
@@ -577,7 +736,7 @@ class SATOApp(QMainWindow):
 
                 subprocess.run(command, check=True, text=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
 
-            elif tool == "Bayesian Phylogeny":
+            elif tool == "MrBayes-Bayesian Phylogeny":
                 if input_file.endswith(".fasta"):
                     # Load FASTA alignment
                     alignment = AlignIO.read(input_file, "fasta")

@@ -6,25 +6,29 @@ with open('README.md', 'r', encoding='utf-8') as readme_file:
 
 setuptools.setup(
     name="SATO",
-    version="0.0.1",
-    include_package_data=True,
-    description='Python package that generates consensus sequence from the forward and reverse sequences, performs multiple sequence alignment of the fasta sequences and generates phylogenetic trees using Bayesian and Maximum Likelihood Methods',
+    version="0.0.2",
+    description='Python package that generates consensus sequence from the forward and reverse sequences, performs multiple sequence alignment of the fasta sequences, and generates phylogenetic trees using Bayesian and Maximum Likelihood Methods',
+    long_description=LONG_DESCRIPTION,
+    long_description_content_type="text/markdown",
     license="MIT",
-    packages=['SATO'],
-    package_dir={'SATO': 'SATO'},
+    author='Clabe Wekesa',
+    author_email='simiyu86wekesa@gmail.com',
+    url="https://github.com/clabe-wekesa/SATO",
+    keywords=['consensus', 'alignment', 'phylogenetics', 'bioinformatics'],
     install_requires=[
         'PyQt6',
         'Biopython'
     ],
-    author='Clabe Wekesa',
-    author_email='simiyu86wekesa@gmail.com',
+    python_requires='>=3.6',
+    packages=['SATO'],
+    package_dir={'SATO': 'SATO'},
     package_data={
-        'SATO': ['about_intro.txt', 'help.txt', 'stylesheet.css', 'icons/*.png'],
+        'SATO': ['about_intro.txt', 'help.txt', 'stylesheet.css', 'icons/*.png', 'programs/*'],
     },
-    long_description=LONG_DESCRIPTION,
-    long_description_content_type="text/markdown",
     classifiers=[
         "License :: OSI Approved :: MIT License",
+        "Development Status :: 3 - Alpha",
+        "Intended Audience :: Science/Research",
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
@@ -32,13 +36,13 @@ setuptools.setup(
         "Programming Language :: Python :: 3.9",
         "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
-        "Operating System :: OS Independent"
+        "Operating System :: OS Independent",
     ],
     entry_points={
         'console_scripts': [
             'sato = SATO.SATO:main',
         ],
     },
-    scripts=['run.py'],  # Include the run.py script
+    scripts=['run.py'],
 )
 
