@@ -8,14 +8,21 @@ SATO depends on the following:
 4) mrBayes: https://nbisweden.github.io/MrBayes/
 5) FigTree: http://tree.bio.ed.ac.uk/software/figtree/
 6) jalview: https://www.jalview.org/
+7) SeaView: https://evomics.org/resources/software/bioinformatics-software/seaview/
 
-So far, SATO has three main funtions:
+So far, SATO has three four funtions:
 
 **Consensus Sequence**
 Takes two input FASTA files or sequences and generates a consensus sequence by identifying the optimal overlapping window that minimizes mismatches while maximizing sequence length. It begins by validating the input FASTA files, checking if they are in the correct format. Then, it reads the sequences, removes non-nucleotide characters, and computes the reverse complement of one of the sequences. The function iterates through possible overlap lengths, comparing sequences for the least number of mismatches, and selecting the best overlap. If an acceptable consensus is found, it returns the consensus sequence with the specified name. If no consensus with acceptable mismatches is found, it concatenates the sequences and returns the resulting consensus sequence.
 
+**Sequence Cleaner** 
+This tool allows users to upload and clean FASTA-formatted DNA or RNA sequences by removing non-nucleotide characters, such as headers and whitespace, ensuring the sequences are well-structured. It provides a user-friendly interface for selecting input files, processes them according to FASTA format, and displays the cleaned sequences along with their headers in a text box. In cases where the selected file does not adhere to FASTA format, it provides error handling to inform users. This functionality aids researchers and scientists in preparing genetic data for downstream analyses and applications, improving data quality and reliability.
+
 **Sequence Alignment**
-Selects either Clustal Omega or MAFFT as an alignment tool based on the user input, validates the provided FASTA file, and executes the chosen tool for sequence alignment. If the alignment is unsuccessful due to errors, it displays a failure message. Upon successful alignment, it saves the alignment to an output file, generates an output filename from the input, and launches Jalview for visualization, ensuring a seamless Multiple Sequence Alignment process.
+Selects either Clustal Omega or MAFFT as an alignment tool based on the user input, validates the provided FASTA file, and executes the chosen tool for sequence alignment. If the alignment is unsuccessful due to errors, it displays a failure message. Upon successful alignment, it saves the alignment to an output file, generates an output filename from the input, and launches seaview or Jalview for visualization, ensuring a seamless Multiple Sequence Alignment process.
 
 **Phylogeny Analysis**
 Performs phylogenetic analysis using either Maximum Likelihood or Bayesian Phylogeny methods, depending on user selection. It checks if a valid input alignment file has been provided and verifies the alignment format and molecular type compatibility. The function creates an output folder, generates an output Nexus file for Bayesian analysis (if applicable), and executes the selected phylogenetic tool (FastTree for Maximum Likelihood or MrBayes for Bayesian Phylogeny) to generate a phylogenetic tree. It visualizes the resulting tree using FigTree and provides informative messages about the analysis status.
+
+**Usage**
+After extraction, double-click on the executable to launch the GUI.
