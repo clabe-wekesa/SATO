@@ -35,7 +35,7 @@ However, note that **Clustal Omega, MAFFT, MrBayes, FastTree, SeaView and FigTre
 After installation, open the terminal (linux or macOS) or command prompt (windows) and type **sato**, then press **Enter** to launch SATO's GUI
 
 ## Standalone
-There is also a standalone excutable at [SATO v0.1.0](https://github.com/clabe-wekesa/SATO/releases/tag/v0.1.1)  
+There is also a standalone excutable at [SATO v0.1.1](https://github.com/clabe-wekesa/SATO/releases/tag/v0.1.1)  
 After extracting, double-click on the excutable to launch the GUI
 
 ### Acknowledgment
