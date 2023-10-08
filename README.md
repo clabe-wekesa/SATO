@@ -23,7 +23,7 @@ SATO is a powerful Sequence Analysis Toolkit that offers a range of features for
 
 ```shell
 pip install SATO
-
+```
 **2. SATO uses the following programs:**
 - [Clustal Omega](http://www.clustal.org/omega/) and/or [MAFFT](https://mafft.cbrc.jp/alignment/software/) for sequence alignment
 - [MrBayes](https://nbisweden.github.io/MrBayes/) and/or [FastTree](http://www.microbesonline.org/fasttree/) for phylogenetic analysis
