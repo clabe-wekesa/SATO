@@ -19,20 +19,17 @@ SATO is a powerful Sequence Analysis Toolkit that offers a range of features for
 ### User-Friendly Interface
    - The app offers a tabbed interface for easy navigation between different analysis functions. 
 ### Installation Instructions
-**1. Python Environment** - Requires [Python 3](https://www.python.org/) environment and so ensure you have installed it on your computer.
+**1. Python Environment** - Requires [Python 3](https://www.python.org/) environment and so ensure you have installed it on your computer.  
 
-**2. Python Packages** - Install the required Python packages using pip:
-```bash
-pip install PyQt6
-pip install biopython
+pip install SATO
 ```
-**3. SATO uses the following programs:**
+
+**2. SATO uses the following programs:**
 - [Clustal Omega](http://www.clustal.org/omega/) and/or [MAFFT](https://mafft.cbrc.jp/alignment/software/) for sequence alignment
 - [MrBayes](https://nbisweden.github.io/MrBayes/) and/or [FastTree](http://www.microbesonline.org/fasttree/) for phylogenetic analysis
 - [SeaView](https://evomics.org/resources/software/bioinformatics-software/seaview/) and/or [Jalview](https://www.jalview.org/) for visualization and analysis of multiple sequence alignment and [FigTree](http://tree.bio.ed.ac.uk/software/figtree/) for  isualization and analysis of phylogenetic trees.  
 
 However, note that **Clustal Omega, MAFFT, MrBayes, FastTree, SeaView and FigTree** are bundled with the SATO. If you wish to use **jalview**, please install it on your system
-
 
 ### Usage
 After installation, open the terminal (linux or macOS) or command prompt (windows) and type **sato**, then press **Enter** to launch SATO's GUI
