@@ -34,6 +34,10 @@ However, note that **Clustal Omega, MAFFT, MrBayes, FastTree, SeaView and FigTre
 ### Usage
 After installation, open the terminal (linux or macOS) or command prompt (windows) and type **sato**, then press **Enter** to launch SATO's GUI
 
+## Standalone
+There is also a standalone excutable at [Download SATO v0.1.0](https://github.com/clabe-wekesa/SATO/releases/tag/v0.1.0)  
+After extracting, double-click on the excutable to launch the GUI
+
 ### Acknowledgment
 1. Huelsenbeck, J. P., & Ronquist, F. (2001). MRBAYES: Bayesian inference of phylogenetic trees. Bioinformatics, 17(8), 754-755.
 2. Price, M. N., Dehal, P. S., & Arkin, A. P. (2009). FastTree: computing large minimum evolution trees with profiles instead of a distance matrix. Molecular biology and evolution, 26(7), 1641-1650.
