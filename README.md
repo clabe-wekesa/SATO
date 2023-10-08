@@ -21,8 +21,8 @@ SATO is a powerful Sequence Analysis Toolkit that offers a range of features for
 ### Installation Instructions
 **1. Python Environment** - Requires [Python 3](https://www.python.org/) environment and so ensure you have installed it on your computer.  
 
+```shell
 pip install SATO
-```
 
 **2. SATO uses the following programs:**
 - [Clustal Omega](http://www.clustal.org/omega/) and/or [MAFFT](https://mafft.cbrc.jp/alignment/software/) for sequence alignment
