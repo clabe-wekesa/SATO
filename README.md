@@ -104,6 +104,6 @@ After extracting, double-click on the excutable to launch the GUI
 Should you notice a bug, please let us know through issues in the, [GitHub Issue Tracker](https://github.com/clabe-wekesa/SATO/issues)
 
 ### Author
-[Dr. Clabe Wekesa](https://www.ice.mpg.de/246268/group-members),[Dr. Patrick Okoth](https://mmust.ac.ke/staffprofiles/index.php/dr-patrick-okoth),[Prof. John Muoma](https://mmust.ac.ke/staffprofiles/index.php/prof-john-vincent-omondi-muoma)
+[Dr. Clabe Wekesa](https://www.ice.mpg.de/246268/group-members), [Dr. Patrick Okoth](https://mmust.ac.ke/staffprofiles/index.php/dr-patrick-okoth) and [Prof. John Muoma](https://mmust.ac.ke/staffprofiles/index.php/prof-john-vincent-omondi-muoma)
  
 
