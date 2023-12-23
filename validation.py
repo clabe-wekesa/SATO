@@ -1,4 +1,5 @@
 import os
+from Bio.Seq import Seq
 
 def is_valid_fasta(file_content):
     # Define a regular expression to validate FASTA format
@@ -6,31 +7,13 @@ def is_valid_fasta(file_content):
     return bool(re.match(fasta_pattern, file_content, re.MULTILINE | re.IGNORECASE))
 
 
-def is_protein_alignment(input_file):
+def is_protein_alignment(sequence):
     try:
-        with open(input_file, 'r') as file:
-            lines = file.readlines()
-            sequence = ''.join(line.strip() for line in lines if not line.startswith('>'))
-            valid_protein_chars = "DEFHIKLMNPQRSVWYdefhiklmnpqrsvwy"
-            return any(aa in valid_protein_chars for aa in sequence)
+        seq = Seq(sequence)
+        return seq.alphabet == Seq.protein
     except Exception:
         return False    
-
-
-def is_protein_alignment_nexus(input_file):
-    try:
-        with open(input_file, 'r') as file:
-            lines = file.readlines()
-            sequence_found = False
-            for line in lines:
-                if sequence_found:
-                    if any(aa in line for aa in "ACDEFGHIKLMNPQRSTVWYacdefghiklmnpqrstvwy"):
-                        return True
-                if line.strip().startswith("MATRIX"):
-                    sequence_found = True
-    except Exception:
-        pass
-    return False
+        
 
 def is_fasta_aligned(input_file):
     try:

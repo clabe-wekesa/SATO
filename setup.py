@@ -6,7 +6,7 @@ with open('README.md', 'r', encoding='utf-8') as readme_file:
 
 setuptools.setup(
     name="SATO",
-    version="0.0.2",
+    version="0.0.3",
     description='Python package that generates consensus sequence from the forward and reverse sequences, performs multiple sequence alignment of the fasta sequences, and generates phylogenetic trees using Bayesian and Maximum Likelihood Methods',
     long_description=LONG_DESCRIPTION,
     long_description_content_type="text/markdown",

@@ -16,7 +16,7 @@ from Bio import AlignIO
 from io import StringIO
 import subprocess
 import shutil
-from validation import (
+from .validation import (
     is_protein_alignment, text_formatting,is_valid_fasta,
     is_fasta_aligned, is_valid_fasta
 )
@@ -136,7 +136,7 @@ class SATOApp(QMainWindow):
         image_label.setStyleSheet("margin-bottom: 100px;")
 
         # Create a QLabel for the text
-        text_label = QLabel("Written by Dr. Clabe Wekesa")  # Replace with your desired text
+        text_label = QLabel("Written by C.S. Wekesa, P. Okoth, and J.O. Muoma")
 
         # Create a QFont instance and set the font size
         font = QFont()

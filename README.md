@@ -38,8 +38,8 @@ However, note that **Clustal Omega, MAFFT, MrBayes, FastTree, SeaView and FigTre
 After installation, open the terminal (linux or macOS) or command prompt (windows) and type **sato**, then press **Enter** to launch SATO's GUI
 
 ## Standalone
-There is also a standalone excutable at [SATO v0.1.1](https://github.com/clabe-wekesa/SATO/releases/tag/v0.1.1)  
-After extracting, double-click on the excutable to launch the GUI
+There is also a standalone executable at [SATO v0.1.1](https://github.com/clabe-wekesa/SATO/releases/tag/v0.1.1)  
+After extracting, double-click on the executable to launch the GUI
 
 ### Acknowledgment
 1. Huelsenbeck, J. P., & Ronquist, F. (2001). MRBAYES: Bayesian inference of phylogenetic trees. Bioinformatics, 17(8), 754-755.
